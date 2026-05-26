@@ -1,0 +1,1724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FixIt Pro — On-Demand Home Services</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D690;
+    --gold-dark: #8B6914;
+    --navy: #0D1B2A;
+    --navy-mid: #1A2E45;
+    --navy-light: #243B55;
+    --cream: #FAF7F0;
+    --cream-dark: #F0EAD6;
+    --white: #FFFFFF;
+    --gray: #6B7280;
+    --gray-light: #F3F4F6;
+    --success: #059669;
+    --danger: #DC2626;
+    --text: #1A1A2E;
+    --text-muted: #6B7280;
+    --radius: 16px;
+    --radius-sm: 8px;
+    --shadow: 0 20px 60px rgba(13,27,42,0.12);
+    --shadow-sm: 0 4px 20px rgba(13,27,42,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(13,27,42,0.96);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    padding: 0 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 72px;
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--gold);
+    letter-spacing: -0.5px;
+    text-decoration: none;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .nav-logo-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+  }
+
+  .nav-links {
+    display: flex; align-items: center; gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-cta {
+    background: var(--gold);
+    color: var(--navy) !important;
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-weight: 600 !important;
+    transition: all 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--gold-light) !important; transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(160deg, var(--navy) 0%, var(--navy-mid) 50%, #0F2744 100%);
+    display: flex; align-items: center;
+    padding: 120px 5% 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse 60% 50% at 70% 50%, rgba(201,168,76,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold);
+    padding: 7px 16px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .badge-dot { width: 7px; height: 7px; background: var(--gold); border-radius: 50%; animation: pulse 2s infinite; }
+
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    color: var(--white);
+    line-height: 1.1;
+    letter-spacing: -1px;
+    margin-bottom: 24px;
+  }
+  .hero h1 em { color: var(--gold); font-style: italic; }
+
+  .hero-desc {
+    color: rgba(255,255,255,0.65);
+    font-size: 1.1rem;
+    line-height: 1.75;
+    max-width: 480px;
+    margin-bottom: 40px;
+  }
+
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 48px; }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--navy);
+    padding: 15px 32px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: all 0.25s;
+    border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,168,76,0.4); }
+
+  .btn-outline {
+    border: 1.5px solid rgba(255,255,255,0.3);
+    color: var(--white);
+    padding: 15px 32px;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 1rem;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: all 0.25s;
+    cursor: pointer;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  .hero-stats {
+    display: flex; gap: 32px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .hero-stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--gold);
+    font-weight: 700;
+  }
+  .hero-stat-label { color: rgba(255,255,255,0.5); font-size: 0.8rem; margin-top: 2px; }
+
+  /* HERO CARD (right side) */
+  .hero-visual { position: relative; }
+
+  .booking-card {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.3);
+    position: relative;
+  }
+
+  .booking-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--navy);
+    margin-bottom: 24px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .service-tabs {
+    display: flex; gap: 8px; margin-bottom: 20px;
+  }
+  .tab {
+    flex: 1;
+    padding: 10px;
+    border-radius: 12px;
+    border: 1.5px solid #E5E7EB;
+    text-align: center;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: all 0.2s;
+  }
+  .tab.active {
+    background: var(--navy);
+    color: var(--white);
+    border-color: var(--navy);
+  }
+  .tab-icon { font-size: 1.2rem; display: block; margin-bottom: 4px; }
+
+  .form-group { margin-bottom: 16px; }
+  .form-label { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; margin-bottom: 6px; display: block; }
+  .form-input {
+    width: 100%;
+    border: 1.5px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+    background: var(--cream);
+  }
+  .form-input:focus { border-color: var(--gold); background: var(--white); }
+  .form-select {
+    width: 100%;
+    border: 1.5px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    background: var(--cream);
+    cursor: pointer;
+    transition: border-color 0.2s;
+    appearance: none;
+  }
+  .form-select:focus { border-color: var(--gold); }
+
+  .estimate-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin: 16px 0;
+    font-size: 0.88rem;
+  }
+  .estimate-label { color: var(--text-muted); }
+  .estimate-val { font-weight: 600; color: var(--navy); }
+
+  .upi-badges {
+    display: flex; gap: 6px; margin: 16px 0;
+  }
+  .upi-badge {
+    background: var(--cream-dark);
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    display: flex; align-items: center; gap: 4px;
+  }
+
+  .floating-tag {
+    position: absolute;
+    background: var(--navy);
+    color: var(--white);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    white-space: nowrap;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  }
+  .floating-tag-top { top: -24px; right: -24px; }
+  .floating-tag-bottom { bottom: -20px; left: -20px; background: var(--white); color: var(--navy); border: 1px solid #E5E7EB; }
+  .tag-green { color: var(--success); font-weight: 600; }
+  .tag-gold { color: var(--gold); font-weight: 600; }
+
+  /* ── SECTION COMMON ── */
+  section { padding: 100px 5%; }
+
+  .section-label {
+    display: inline-block;
+    color: var(--gold-dark);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    color: var(--navy);
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+  }
+  .section-title em { color: var(--gold-dark); font-style: italic; }
+
+  .section-desc {
+    color: var(--gray);
+    font-size: 1rem;
+    line-height: 1.75;
+    max-width: 560px;
+  }
+
+  /* ── SERVICES ── */
+  .services { background: var(--white); }
+  .services-header { text-align: center; margin-bottom: 60px; }
+  .services-header .section-desc { margin: 0 auto; }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .service-card {
+    background: var(--cream);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: var(--radius);
+    padding: 32px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; bottom: 0; right: 0;
+    width: 80px; height: 80px;
+    background: var(--gold);
+    opacity: 0.05;
+    border-radius: 50%;
+    transform: translate(30px, 30px);
+    transition: all 0.3s;
+  }
+  .service-card:hover { box-shadow: var(--shadow); transform: translateY(-4px); border-color: var(--gold); }
+  .service-card:hover::before { width: 120px; height: 120px; opacity: 0.08; }
+
+  .svc-icon {
+    width: 56px; height: 56px;
+    background: var(--navy);
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .svc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .svc-desc { color: var(--gray); font-size: 0.88rem; line-height: 1.6; margin-bottom: 20px; }
+
+  .svc-price-row {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .svc-price { font-weight: 600; color: var(--navy); font-size: 0.9rem; }
+  .svc-time {
+    background: rgba(201,168,76,0.12);
+    color: var(--gold-dark);
+    border-radius: 50px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    font-weight: 500;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how { background: var(--navy); color: var(--white); }
+  .how-header { text-align: center; margin-bottom: 70px; }
+  .how-header .section-title { color: var(--white); }
+  .how-header .section-desc { color: rgba(255,255,255,0.6); margin: 0 auto; }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .steps-grid::before {
+    content: '';
+    position: absolute;
+    top: 40px; left: 10%; right: 10%; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.4), transparent);
+  }
+
+  .step {
+    text-align: center;
+    padding: 32px 24px;
+    position: relative;
+  }
+  .step-num {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: rgba(201,168,76,0.1);
+    border: 1.5px solid rgba(201,168,76,0.3);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--gold);
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s;
+  }
+  .step:hover .step-num { background: rgba(201,168,76,0.2); border-color: var(--gold); }
+
+  .step-title { font-size: 1.05rem; font-weight: 600; color: var(--white); margin-bottom: 10px; }
+  .step-desc { color: rgba(255,255,255,0.5); font-size: 0.85rem; line-height: 1.6; }
+
+  /* ── PRICING / COMMISSION ── */
+  .pricing { background: var(--cream); }
+  .pricing-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .pricing-info { }
+
+  .commission-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid rgba(201,168,76,0.2);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .commission-header {
+    background: var(--navy);
+    padding: 24px 28px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .commission-header h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--white);
+    font-size: 1.1rem;
+  }
+  .upi-icon {
+    background: var(--gold);
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 6px 10px;
+    border-radius: 8px;
+    letter-spacing: 1px;
+  }
+
+  .commission-body { padding: 28px; }
+
+  .commission-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid #F3F4F6;
+  }
+  .commission-row:last-child { border-bottom: none; }
+
+  .cr-label { font-size: 0.88rem; color: var(--gray); display: flex; align-items: center; gap: 8px; }
+  .cr-label-icon { color: var(--gold); }
+  .cr-val { font-weight: 600; color: var(--navy); font-size: 0.95rem; }
+
+  .commission-footer {
+    background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+    padding: 20px 28px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .cf-label { color: rgba(255,255,255,0.7); font-size: 0.85rem; }
+  .cf-total { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--gold); font-weight: 700; }
+
+  .pricing-features { margin-top: 32px; }
+  .pricing-feature {
+    display: flex; align-items: flex-start; gap: 12px;
+    margin-bottom: 20px;
+  }
+  .pf-icon {
+    width: 36px; height: 36px;
+    background: rgba(201,168,76,0.1);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.9rem;
+  }
+  .pf-title { font-weight: 600; color: var(--navy); font-size: 0.92rem; margin-bottom: 3px; }
+  .pf-desc { color: var(--gray); font-size: 0.82rem; line-height: 1.5; }
+
+  /* ── PROFESSIONALS ── */
+  .professionals { background: var(--white); }
+  .professionals-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 48px;
+    max-width: 1280px;
+    margin: 0 auto 48px;
+  }
+
+  .pros-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 24px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .pro-card {
+    background: var(--cream);
+    border-radius: var(--radius);
+    border: 1px solid #E5E7EB;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .pro-card:hover { box-shadow: var(--shadow); transform: translateY(-4px); border-color: rgba(201,168,76,0.4); }
+
+  .pro-card-top {
+    background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+    padding: 24px;
+    display: flex; align-items: center; gap: 14px;
+    position: relative;
+  }
+  .pro-avatar {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--navy);
+    font-weight: 700;
+    border: 2px solid rgba(201,168,76,0.5);
+    flex-shrink: 0;
+  }
+  .pro-info-name { font-weight: 600; color: var(--white); font-size: 0.98rem; }
+  .pro-info-role {
+    color: var(--gold);
+    font-size: 0.78rem;
+    font-weight: 500;
+    margin-top: 2px;
+  }
+  .pro-verified {
+    position: absolute; top: 12px; right: 12px;
+    background: rgba(5,150,105,0.2);
+    border: 1px solid rgba(5,150,105,0.4);
+    color: #6EE7B7;
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 50px;
+    letter-spacing: 0.5px;
+  }
+
+  .pro-card-body { padding: 20px; }
+
+  .pro-stats { display: flex; gap: 16px; margin-bottom: 16px; }
+  .pro-stat { text-align: center; }
+  .pro-stat-num { font-weight: 700; color: var(--navy); font-size: 1.05rem; }
+  .pro-stat-label { color: var(--gray); font-size: 0.72rem; margin-top: 1px; }
+
+  .pro-rating { display: flex; align-items: center; gap: 4px; margin-bottom: 14px; }
+  .pro-stars { color: var(--gold); font-size: 0.85rem; }
+  .pro-rating-num { font-weight: 600; color: var(--navy); font-size: 0.85rem; }
+  .pro-rating-cnt { color: var(--gray); font-size: 0.78rem; }
+
+  .pro-services { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pro-service-tag {
+    background: var(--navy);
+    color: rgba(255,255,255,0.85);
+    border-radius: 50px;
+    padding: 4px 10px;
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+
+  /* ── DASHBOARD PREVIEW ── */
+  .dashboard { background: var(--navy); padding: 100px 5%; }
+
+  .dash-header { text-align: center; margin-bottom: 60px; }
+  .dash-header .section-title { color: var(--white); }
+  .dash-header .section-desc { color: rgba(255,255,255,0.6); margin: 0 auto; }
+
+  .dash-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    max-width: 1100px;
+    margin: 0 auto 32px;
+  }
+
+  .dash-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: all 0.3s;
+  }
+  .dash-card:hover { background: rgba(255,255,255,0.08); border-color: rgba(201,168,76,0.3); }
+
+  .dc-label { color: rgba(255,255,255,0.5); font-size: 0.78rem; font-weight: 500; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .dc-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--gold);
+    font-weight: 700;
+  }
+  .dc-change { font-size: 0.78rem; color: #6EE7B7; margin-top: 4px; }
+
+  .dash-bottom {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .dash-table-card, .dash-pie-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,168,76,0.1);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+
+  .dash-card-title {
+    color: rgba(255,255,255,0.8);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .dash-table { width: 100%; border-collapse: collapse; }
+  .dash-table th {
+    color: rgba(255,255,255,0.4);
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-align: left;
+    padding: 0 0 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .dash-table td {
+    color: rgba(255,255,255,0.75);
+    font-size: 0.82rem;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .dash-table td:last-child { text-align: right; }
+  .status-done { color: #6EE7B7; font-size: 0.72rem; font-weight: 600; background: rgba(5,150,105,0.15); padding: 3px 8px; border-radius: 50px; }
+  .status-prog { color: var(--gold); font-size: 0.72rem; font-weight: 600; background: rgba(201,168,76,0.15); padding: 3px 8px; border-radius: 50px; }
+
+  .pie-legend { margin-top: 20px; }
+  .legend-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .legend-label { color: rgba(255,255,255,0.6); font-size: 0.8rem; }
+  .legend-pct { margin-left: auto; color: rgba(255,255,255,0.8); font-weight: 600; font-size: 0.8rem; }
+
+  /* ── CTA ── */
+  .cta-section {
+    background: var(--cream);
+    padding: 100px 5%;
+    text-align: center;
+  }
+
+  .cta-box {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    border-radius: 28px;
+    padding: 80px 60px;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-box::before {
+    content: '';
+    position: absolute; top: -50%; right: -10%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+  }
+
+  .cta-box h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--white);
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .cta-box h2 em { color: var(--gold); font-style: italic; }
+  .cta-box p { color: rgba(255,255,255,0.6); font-size: 1rem; margin-bottom: 40px; max-width: 500px; margin-left: auto; margin-right: auto; position: relative; }
+
+  .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; position: relative; }
+
+  .btn-store {
+    background: rgba(255,255,255,0.1);
+    border: 1.5px solid rgba(255,255,255,0.2);
+    color: var(--white);
+    padding: 14px 28px;
+    border-radius: 14px;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 12px;
+    transition: all 0.25s;
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-store:hover { background: rgba(255,255,255,0.18); border-color: var(--gold); }
+  .btn-store-icon { font-size: 1.6rem; line-height: 1; }
+  .btn-store-text small { display: block; font-size: 0.7rem; color: rgba(255,255,255,0.6); }
+  .btn-store-text strong { font-size: 0.95rem; font-weight: 600; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy);
+    border-top: 1px solid rgba(201,168,76,0.15);
+    padding: 60px 5% 32px;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    max-width: 1280px;
+    margin: 0 auto 48px;
+  }
+
+  .footer-brand .nav-logo { font-size: 1.4rem; margin-bottom: 12px; display: inline-flex; }
+  .footer-brand p { font-size: 0.85rem; line-height: 1.7; max-width: 280px; }
+
+  .footer-col h4 { color: var(--gold); font-size: 0.8rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 10px; }
+  .footer-col ul li a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+  .footer-col ul li a:hover { color: var(--gold); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 24px;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .upi-strip {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .upi-strip-label { color: rgba(255,255,255,0.4); font-size: 0.75rem; }
+  .upi-chip {
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold);
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── BOOKING MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(13,27,42,0.85);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--white);
+    border-radius: 24px;
+    max-width: 480px;
+    width: 100%;
+    padding: 40px;
+    position: relative;
+    animation: slideUp 0.3s ease;
+  }
+  @keyframes slideUp { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
+
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    background: var(--gray-light);
+    border: none; width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text);
+  }
+
+  .modal h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+  .modal p { color: var(--gray); font-size: 0.88rem; margin-bottom: 28px; }
+
+  .modal-success { text-align: center; padding: 20px 0; }
+  .success-check {
+    width: 72px; height: 72px;
+    background: rgba(5,150,105,0.1);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+    margin: 0 auto 20px;
+  }
+  .modal-success h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--navy); margin-bottom: 8px; }
+  .modal-success p { color: var(--gray); font-size: 0.9rem; }
+
+  .worker-eta {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-top: 20px;
+  }
+  .eta-avatar {
+    width: 40px; height: 40px;
+    background: var(--navy);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+  .eta-info { flex: 1; }
+  .eta-name { font-weight: 600; color: var(--navy); font-size: 0.88rem; }
+  .eta-time { color: var(--gray); font-size: 0.78rem; margin-top: 1px; }
+  .eta-badge {
+    background: rgba(5,150,105,0.1);
+    color: var(--success);
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 50px;
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 32px; right: 32px;
+    background: var(--navy);
+    color: var(--white);
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    z-index: 300;
+    display: none;
+    align-items: center; gap: 10px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    border-left: 3px solid var(--gold);
+  }
+  .toast.show { display: flex; animation: slideUp 0.3s ease; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .pricing-wrap { grid-template-columns: 1fr; }
+    .dash-bottom { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .cta-box { padding: 48px 28px; }
+    .steps-grid::before { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-icon">🔧</div>
+    FixIt Pro
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#how">How it Works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#professionals">Professionals</a></li>
+    <li><a href="#" class="nav-cta" onclick="openModal()">Book Now</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" id="home">
+  <div class="hero-grid">
+    <div class="hero-left">
+      <div class="hero-badge"><span class="badge-dot"></span>Available in Raipur & 50+ cities</div>
+      <h1>Your Trusted<br><em>Home Service</em><br>Experts, On Demand</h1>
+      <p class="hero-desc">Connect instantly with verified plumbers, electricians, and more. Fixed pricing, UPI payments, and real-time tracking — like Rapido, but for your home.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="openModal()">🔧 Book a Service</button>
+        <a href="#professionals" class="btn-outline">👷 Join as Pro</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">50K+</div>
+          <div class="hero-stat-label">Happy Customers</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">2,800</div>
+          <div class="hero-stat-label">Verified Pros</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">4.9★</div>
+          <div class="hero-stat-label">Average Rating</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="floating-tag floating-tag-top">
+        🟢 <span class="tag-green">Rahul P.</span> is on the way · <strong>12 mins</strong>
+      </div>
+      <div class="booking-card">
+        <div class="booking-card-title">⚡ Quick Book</div>
+        <div class="service-tabs">
+          <div class="tab active" onclick="selectTab(this)">
+            <span class="tab-icon">🔧</span>Plumber
+          </div>
+          <div class="tab" onclick="selectTab(this)">
+            <span class="tab-icon">⚡</span>Electrician
+          </div>
+          <div class="tab" onclick="selectTab(this)">
+            <span class="tab-icon">🪚</span>Carpenter
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Select Issue</label>
+          <select class="form-select" onchange="updateEstimate()">
+            <option>Pipe Leakage / Repair</option>
+            <option>Tap Installation</option>
+            <option>Water Heater Service</option>
+            <option>Drain Cleaning</option>
+            <option>Full Inspection</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Your Address</label>
+          <input type="text" class="form-input" placeholder="Enter your location..." value="Shanti Nagar, Raipur">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Preferred Time</label>
+          <select class="form-select">
+            <option>Now (ASAP)</option>
+            <option>Within 2 hours</option>
+            <option>Today evening</option>
+            <option>Tomorrow morning</option>
+          </select>
+        </div>
+        <div class="estimate-row">
+          <span class="estimate-label">Service Charge</span>
+          <span class="estimate-val" id="svc-charge">₹299</span>
+        </div>
+        <div class="estimate-row" style="margin-top:-8px">
+          <span class="estimate-label">Platform Fee</span>
+          <span class="estimate-val">₹29</span>
+        </div>
+        <div style="font-size:0.78rem;color:var(--text-muted);margin:4px 0 12px;">Pay via UPI — Instant & Secure</div>
+        <div class="upi-badges">
+          <div class="upi-badge">🟣 PhonePe</div>
+          <div class="upi-badge">🟡 GPay</div>
+          <div class="upi-badge">🔵 Paytm</div>
+          <div class="upi-badge">🏦 BHIM</div>
+        </div>
+        <button class="btn-primary" style="width:100%;justify-content:center;border-radius:14px;" onclick="openModal()">
+          Book Now → Pay via UPI
+        </button>
+      </div>
+      <div class="floating-tag floating-tag-bottom">
+        <span class="tag-gold">✓</span> Platform commission: <strong>18%</strong> — instant UPI split
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES ── -->
+<section class="services" id="services">
+  <div class="services-header">
+    <div class="section-label">What We Offer</div>
+    <h2 class="section-title">Expert Services for <em>Every Need</em></h2>
+    <p class="section-desc">From emergencies to planned upgrades — our certified professionals handle it all with guaranteed quality.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="svc-icon">🔧</div>
+      <div class="svc-title">Plumbing</div>
+      <div class="svc-desc">Leaks, drain clogs, pipe installation, geyser repair, and complete bathroom plumbing solutions.</div>
+      <div class="svc-price-row">
+        <div class="svc-price">Starts at ₹199</div>
+        <div class="svc-time">⏱ 30 min arrival</div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="svc-icon">⚡</div>
+      <div class="svc-title">Electrical</div>
+      <div class="svc-desc">Fan installation, wiring fixes, switchboard repair, inverter setup, and power-cut troubleshooting.</div>
+      <div class="svc-price-row">
+        <div class="svc-price">Starts at ₹249</div>
+        <div class="svc-time">⏱ 25 min arrival</div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="svc-icon">🪚</div>
+      <div class="svc-title">Carpentry</div>
+      <div class="svc-desc">Door repairs, furniture assembly, cabinet fitting, window fixes, and custom woodwork.</div>
+      <div class="svc-price-row">
+        <div class="svc-price">Starts at ₹349</div>
+        <div class="svc-time">⏱ 45 min arrival</div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="svc-icon">❄️</div>
+      <div class="svc-title">AC & Appliance</div>
+      <div class="svc-desc">AC servicing, washing machine repair, refrigerator gas refill, and appliance installation.</div>
+      <div class="svc-price-row">
+        <div class="svc-price">Starts at ₹499</div>
+        <div class="svc-time">⏱ 60 min arrival</div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="svc-icon">🎨</div>
+      <div class="svc-title">Painting</div>
+      <div class="svc-desc">Room painting, waterproofing, texture finish, touch-up work, and full home painting.</div>
+      <div class="svc-price-row">
+        <div class="svc-price">Starts at ₹999</div>
+        <div class="svc-time">⏱ Scheduled</div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="svc-icon">🧹</div>
+      <div class="svc-title">Deep Cleaning</div>
+      <div class="svc-desc">Full home deep clean, kitchen scrub, bathroom sanitization, sofa/carpet cleaning.</div>
+      <div class="svc-price-row">
+        <div class="svc-price">Starts at ₹799</div>
+        <div class="svc-time">⏱ 2 hr service</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ── -->
+<section class="how" id="how">
+  <div class="how-header">
+    <div class="section-label" style="color:var(--gold)">Simple Process</div>
+    <h2 class="section-title">Book in <em style="color:var(--gold)">4 Easy Steps</em></h2>
+    <p class="section-desc">From tap to payment in minutes — no haggling, no cash, no stress.</p>
+  </div>
+  <div class="steps-grid">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-title">Choose Service</div>
+      <div class="step-desc">Pick from plumbing, electrical, and 10+ other home services. See instant price estimate.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-title">Match Pro</div>
+      <div class="step-desc">Our algorithm connects you to the nearest verified professional in under 60 seconds.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-title">Track Live</div>
+      <div class="step-desc">Watch your professional arrive in real time, just like a Rapido ride — on the map.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-title">Pay via UPI</div>
+      <div class="step-desc">One-tap payment via PhonePe, GPay, or BHIM. Commission auto-splits to our account.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING & COMMISSION ── -->
+<section class="pricing" id="pricing">
+  <div class="pricing-wrap">
+    <div class="pricing-info">
+      <div class="section-label">Revenue Model</div>
+      <h2 class="section-title">Transparent <em>Commission</em> & Pricing</h2>
+      <p class="section-desc">We charge a service fee from customers and earn commission from professionals on every completed job. All payments flow through UPI with automatic splitting.</p>
+
+      <div class="pricing-features" style="margin-top:40px">
+        <div class="pricing-feature">
+          <div class="pf-icon">💸</div>
+          <div>
+            <div class="pf-title">UPI Auto Split</div>
+            <div class="pf-desc">When customer pays ₹499, our 18% commission (₹89.82) is automatically routed to FixIt Pro's UPI account. Pro receives ₹409.18 instantly.</div>
+          </div>
+        </div>
+        <div class="pricing-feature">
+          <div class="pf-icon">🧾</div>
+          <div>
+            <div class="pf-title">Platform Service Charge</div>
+            <div class="pf-desc">A flat ₹29 convenience fee is added to every booking. This covers insurance, customer support, and quality guarantee.</div>
+          </div>
+        </div>
+        <div class="pricing-feature">
+          <div class="pf-icon">🏆</div>
+          <div>
+            <div class="pf-title">Pro Subscription Plans</div>
+            <div class="pf-desc">Professionals can subscribe for ₹499/month to reduce their commission to 12% and unlock premium placement.</div>
+          </div>
+        </div>
+        <div class="pricing-feature">
+          <div class="pf-icon">🛡️</div>
+          <div>
+            <div class="pf-title">Work Guarantee</div>
+            <div class="pf-desc">All services are backed by a 30-day guarantee. Refunds via UPI within 2 hours if work is unsatisfactory.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="commission-card">
+        <div class="commission-header">
+          <div>
+            <h3>Sample Booking Breakdown</h3>
+            <div style="color:rgba(255,255,255,0.5);font-size:0.78rem;margin-top:2px;">Plumbing • Pipe Repair</div>
+          </div>
+          <div class="upi-icon">UPI</div>
+        </div>
+        <div class="commission-body">
+          <div class="commission-row">
+            <div class="cr-label"><span class="cr-label-icon">🔧</span>Base Service Charge</div>
+            <div class="cr-val">₹499</div>
+          </div>
+          <div class="commission-row">
+            <div class="cr-label"><span class="cr-label-icon">📱</span>Platform Convenience Fee</div>
+            <div class="cr-val">+ ₹29</div>
+          </div>
+          <div class="commission-row">
+            <div class="cr-label"><span class="cr-label-icon">🧾</span>GST (18%)</div>
+            <div class="cr-val">+ ₹95</div>
+          </div>
+          <div class="commission-row" style="background:rgba(201,168,76,0.05);margin:8px -28px;padding:14px 28px;">
+            <div class="cr-label" style="font-weight:600;color:var(--text);">Customer Pays (UPI)</div>
+            <div class="cr-val" style="color:var(--gold-dark);font-size:1.1rem;">₹623</div>
+          </div>
+          <div class="commission-row">
+            <div class="cr-label"><span class="cr-label-icon">👷</span>Professional Gets</div>
+            <div class="cr-val" style="color:var(--success);">₹409 (82%)</div>
+          </div>
+          <div class="commission-row">
+            <div class="cr-label"><span class="cr-label-icon">🏢</span>FixIt Pro Earns</div>
+            <div class="cr-val" style="color:var(--navy);">₹214 (18% + fee)</div>
+          </div>
+        </div>
+        <div class="commission-footer">
+          <div>
+            <div class="cf-label">Monthly platform earning</div>
+            <div style="color:rgba(255,255,255,0.4);font-size:0.72rem;margin-top:2px;">at 500 bookings/day</div>
+          </div>
+          <div class="cf-total">₹32L+</div>
+        </div>
+      </div>
+
+      <div style="background:var(--white);border-radius:var(--radius);border:1px solid #E5E7EB;padding:20px;margin-top:20px;">
+        <div style="font-weight:600;color:var(--navy);font-size:0.9rem;margin-bottom:14px;">Commission Tiers</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;background:var(--cream);border-radius:10px;padding:10px 14px;">
+            <span style="font-size:0.82rem;color:var(--gray);">Basic (Free)</span>
+            <span style="font-weight:700;color:var(--navy);font-size:0.9rem;">18% commission</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;background:var(--navy);border-radius:10px;padding:10px 14px;">
+            <span style="font-size:0.82rem;color:rgba(255,255,255,0.7);">Pro (₹499/mo)</span>
+            <span style="font-weight:700;color:var(--gold);font-size:0.9rem;">12% commission</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#C9A84C,#8B6914);border-radius:10px;padding:10px 14px;">
+            <span style="font-size:0.82rem;color:rgba(255,255,255,0.9);">Elite (₹999/mo)</span>
+            <span style="font-weight:700;color:var(--white);font-size:0.9rem;">8% commission</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROFESSIONALS ── -->
+<section class="professionals" id="professionals">
+  <div class="professionals-header">
+    <div>
+      <div class="section-label">Our Network</div>
+      <h2 class="section-title">Verified <em>Professionals</em></h2>
+    </div>
+    <button class="btn-primary" onclick="showToast('Join form opening...')">Join as Professional →</button>
+  </div>
+  <div class="pros-grid">
+    <div class="pro-card">
+      <div class="pro-card-top">
+        <div class="pro-avatar">RK</div>
+        <div>
+          <div class="pro-info-name">Rajesh Kumar</div>
+          <div class="pro-info-role">Master Plumber · 9 yrs exp</div>
+        </div>
+        <div class="pro-verified">✓ Verified</div>
+      </div>
+      <div class="pro-card-body">
+        <div class="pro-stats">
+          <div class="pro-stat">
+            <div class="pro-stat-num">847</div>
+            <div class="pro-stat-label">Jobs Done</div>
+          </div>
+          <div class="pro-stat">
+            <div class="pro-stat-num">₹2.1L</div>
+            <div class="pro-stat-label">Earned (mo)</div>
+          </div>
+          <div class="pro-stat">
+            <div class="pro-stat-num">12 min</div>
+            <div class="pro-stat-label">Avg Arrival</div>
+          </div>
+        </div>
+        <div class="pro-rating">
+          <span class="pro-stars">★★★★★</span>
+          <span class="pro-rating-num">4.9</span>
+          <span class="pro-rating-cnt">(312 reviews)</span>
+        </div>
+        <div class="pro-services">
+          <span class="pro-service-tag">Pipe Repair</span>
+          <span class="pro-service-tag">Geyser</span>
+          <span class="pro-service-tag">Bathroom</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pro-card">
+      <div class="pro-card-top">
+        <div class="pro-avatar" style="background:var(--gold-light);color:var(--navy-mid);">AV</div>
+        <div>
+          <div class="pro-info-name">Anil Verma</div>
+          <div class="pro-info-role">Senior Electrician · 12 yrs exp</div>
+        </div>
+        <div class="pro-verified">✓ Verified</div>
+      </div>
+      <div class="pro-card-body">
+        <div class="pro-stats">
+          <div class="pro-stat">
+            <div class="pro-stat-num">1,243</div>
+            <div class="pro-stat-label">Jobs Done</div>
+          </div>
+          <div class="pro-stat">
+            <div class="pro-stat-num">₹3.4L</div>
+            <div class="pro-stat-label">Earned (mo)</div>
+          </div>
+          <div class="pro-stat">
+            <div class="pro-stat-num">8 min</div>
+            <div class="pro-stat-label">Avg Arrival</div>
+          </div>
+        </div>
+        <div class="pro-rating">
+          <span class="pro-stars">★★★★★</span>
+          <span class="pro-rating-num">5.0</span>
+          <span class="pro-rating-cnt">(521 reviews)</span>
+        </div>
+        <div class="pro-services">
+          <span class="pro-service-tag">Wiring</span>
+          <span class="pro-service-tag">Fan Install</span>
+          <span class="pro-service-tag">Switchboard</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pro-card">
+      <div class="pro-card-top">
+        <div class="pro-avatar" style="background:#5DCAA5;color:#04342C;">PS</div>
+        <div>
+          <div class="pro-info-name">Priya Singh</div>
+          <div class="pro-info-role">AC & Appliance Expert · 7 yrs</div>
+        </div>
+        <div class="pro-verified">✓ Verified</div>
+      </div>
+      <div class="pro-card-body">
+        <div class="pro-stats">
+          <div class="pro-stat">
+            <div class="pro-stat-num">654</div>
+            <div class="pro-stat-label">Jobs Done</div>
+          </div>
+          <div class="pro-stat">
+            <div class="pro-stat-num">₹1.8L</div>
+            <div class="pro-stat-label">Earned (mo)</div>
+          </div>
+          <div class="pro-stat">
+            <div class="pro-stat-num">18 min</div>
+            <div class="pro-stat-label">Avg Arrival</div>
+          </div>
+        </div>
+        <div class="pro-rating">
+          <span class="pro-stars">★★★★★</span>
+          <span class="pro-rating-num">4.8</span>
+          <span class="pro-rating-cnt">(198 reviews)</span>
+        </div>
+        <div class="pro-services">
+          <span class="pro-service-tag">AC Service</span>
+          <span class="pro-service-tag">Washing M.</span>
+          <span class="pro-service-tag">Fridge</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pro-card">
+      <div class="pro-card-top">
+        <div class="pro-avatar" style="background:#F0997B;color:#4A1B0C;">MK</div>
+        <div>
+          <div class="pro-info-name">Mohan Khatri</div>
+          <div class="pro-info-role">Master Carpenter · 15 yrs exp</div>
+        </div>
+        <div class="pro-verified">✓ Verified</div>
+      </div>
+      <div class="pro-card-body">
+        <div class="pro-stats">
+          <div class="pro-stat">
+            <div class="pro-stat-num">2,108</div>
+            <div class="pro-stat-label">Jobs Done</div>
+          </div>
+          <div class="pro-stat">
+            <div class="pro-stat-num">₹4.2L</div>
+            <div class="pro-stat-label">Earned (mo)</div>
+          </div>
+          <div class="pro-stat">
+            <div class="pro-stat-num">22 min</div>
+            <div class="pro-stat-label">Avg Arrival</div>
+          </div>
+        </div>
+        <div class="pro-rating">
+          <span class="pro-stars">★★★★☆</span>
+          <span class="pro-rating-num">4.7</span>
+          <span class="pro-rating-cnt">(803 reviews)</span>
+        </div>
+        <div class="pro-services">
+          <span class="pro-service-tag">Doors</span>
+          <span class="pro-service-tag">Furniture</span>
+          <span class="pro-service-tag">Woodwork</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DASHBOARD ── -->
+<section class="dashboard" id="dashboard">
+  <div class="dash-header">
+    <div class="section-label" style="color:var(--gold)">Admin Panel</div>
+    <h2 class="section-title">Real-time <em style="color:var(--gold)">Business Dashboard</em></h2>
+    <p class="section-desc">Track bookings, commission earned, and professional performance from one powerful admin panel.</p>
+  </div>
+
+  <div class="dash-cards">
+    <div class="dash-card">
+      <div class="dc-label">Today's Revenue</div>
+      <div class="dc-value">₹1.24L</div>
+      <div class="dc-change">↑ 18% vs yesterday</div>
+    </div>
+    <div class="dash-card">
+      <div class="dc-label">Commission Earned</div>
+      <div class="dc-value">₹22,320</div>
+      <div class="dc-change">↑ 12% this week</div>
+    </div>
+    <div class="dash-card">
+      <div class="dc-label">Bookings Today</div>
+      <div class="dc-value">342</div>
+      <div class="dc-change">↑ 34 more than avg</div>
+    </div>
+    <div class="dash-card">
+      <div class="dc-label">Active Pros</div>
+      <div class="dc-value">218</div>
+      <div class="dc-change">↑ 4 new joined</div>
+    </div>
+    <div class="dash-card">
+      <div class="dc-label">UPI Settlements</div>
+      <div class="dc-value">₹98.4L</div>
+      <div class="dc-change">Instant payouts</div>
+    </div>
+  </div>
+
+  <div class="dash-bottom">
+    <div class="dash-table-card">
+      <div class="dash-card-title">📋 Recent Bookings</div>
+      <table class="dash-table">
+        <thead>
+          <tr>
+            <th>Customer</th>
+            <th>Service</th>
+            <th>Pro</th>
+            <th>Status</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Suresh G.</td>
+            <td>Plumbing</td>
+            <td>Rajesh K.</td>
+            <td><span class="status-done">Completed</span></td>
+            <td>₹528</td>
+          </tr>
+          <tr>
+            <td>Meena R.</td>
+            <td>Electrical</td>
+            <td>Anil V.</td>
+            <td><span class="status-prog">In Progress</span></td>
+            <td>₹378</td>
+          </tr>
+          <tr>
+            <td>Vikram S.</td>
+            <td>AC Service</td>
+            <td>Priya S.</td>
+            <td><span class="status-done">Completed</span></td>
+            <td>₹623</td>
+          </tr>
+          <tr>
+            <td>Anjali P.</td>
+            <td>Carpentry</td>
+            <td>Mohan K.</td>
+            <td><span class="status-prog">Arriving</span></td>
+            <td>₹448</td>
+          </tr>
+          <tr>
+            <td>Dinesh M.</td>
+            <td>Painting</td>
+            <td>Santosh R.</td>
+            <td><span class="status-done">Completed</span></td>
+            <td>₹1,248</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="dash-pie-card">
+      <div class="dash-card-title">📊 Revenue by Service</div>
+      <svg viewBox="0 0 180 180" width="160" style="display:block;margin:0 auto;">
+        <circle cx="90" cy="90" r="70" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="32"/>
+        <circle cx="90" cy="90" r="70" fill="none" stroke="#C9A84C" stroke-width="32" stroke-dasharray="158 281" stroke-dashoffset="0" transform="rotate(-90 90 90)"/>
+        <circle cx="90" cy="90" r="70" fill="none" stroke="#1D9E75" stroke-width="32" stroke-dasharray="90 281" stroke-dashoffset="-158" transform="rotate(-90 90 90)"/>
+        <circle cx="90" cy="90" r="70" fill="none" stroke="#378ADD" stroke-width="32" stroke-dasharray="67 281" stroke-dashoffset="-248" transform="rotate(-90 90 90)"/>
+        <circle cx="90" cy="90" r="70" fill="none" stroke="#D85A30" stroke-width="32" stroke-dasharray="30 281" stroke-dashoffset="-315" transform="rotate(-90 90 90)"/>
+        <text x="90" y="86" text-anchor="middle" fill="white" font-size="18" font-weight="700" font-family="Playfair Display, serif">342</text>
+        <text x="90" y="104" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="9" font-family="DM Sans, sans-serif">bookings</text>
+      </svg>
+      <div class="pie-legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#C9A84C"></div>
+          <div class="legend-label">Plumbing</div>
+          <div class="legend-pct">38%</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#1D9E75"></div>
+          <div class="legend-label">Electrical</div>
+          <div class="legend-pct">22%</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#378ADD"></div>
+          <div class="legend-label">AC & Appliance</div>
+          <div class="legend-pct">16%</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#D85A30"></div>
+          <div class="legend-label">Others</div>
+          <div class="legend-pct">24%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta-section">
+  <div class="cta-box">
+    <h2>Ready to <em>Launch</em><br>Your Service Empire?</h2>
+    <p>Download the FixIt Pro app and connect with thousands of customers instantly. Available on Android and iOS.</p>
+    <div class="cta-btns">
+      <a class="btn-store" href="#" onclick="showToast('Opening Play Store...')">
+        <div class="btn-store-icon">▶</div>
+        <div class="btn-store-text">
+          <small>GET IT ON</small>
+          <strong>Google Play</strong>
+        </div>
+      </a>
+      <a class="btn-store" href="#" onclick="showToast('Opening App Store...')">
+        <div class="btn-store-icon">◆</div>
+        <div class="btn-store-text">
+          <small>DOWNLOAD ON THE</small>
+          <strong>App Store</strong>
+        </div>
+      </a>
+      <button class="btn-primary" onclick="openModal()">🌐 Use Web App</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="nav-logo" href="#">🔧 FixIt Pro</a>
+      <p>India's most trusted on-demand home services platform. Connecting skilled professionals to customers across 50+ cities with transparent UPI-based payments.</p>
+      <div class="upi-strip" style="margin-top:20px">
+        <span class="upi-strip-label">Payments via</span>
+        <div class="upi-chip">UPI</div>
+        <div class="upi-chip">BHIM</div>
+        <div class="upi-chip">RazorPay</div>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#">Plumbing</a></li>
+        <li><a href="#">Electrical</a></li>
+        <li><a href="#">Carpentry</a></li>
+        <li><a href="#">AC & Appliance</a></li>
+        <li><a href="#">Painting</a></li>
+        <li><a href="#">Deep Cleaning</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Refund Policy</a></li>
+        <li><a href="#">UPI Policy</a></li>
+        <li><a href="#">GST Info</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2025 FixIt Pro Technologies Pvt. Ltd. · Raipur, Chhattisgarh · CIN: U72900CG2025PTC123456</div>
+    <div>Made with ♥ in India</div>
+  </div>
+</footer>
+
+<!-- ── BOOKING MODAL ── -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modal-inner">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-step1">
+      <h2>Book Your Service</h2>
+      <p>Fill in details and pay securely via UPI — your pro arrives in minutes.</p>
+      <div class="form-group">
+        <label class="form-label">Your Name</label>
+        <input type="text" class="form-input" placeholder="Full name" id="m-name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mobile Number</label>
+        <input type="tel" class="form-input" placeholder="+91 98765 43210" id="m-phone">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Service Type</label>
+        <select class="form-select" id="m-service">
+          <option>Plumbing — Pipe Repair (₹299)</option>
+          <option>Electrical — Fan Install (₹249)</option>
+          <option>Carpentry — Door Repair (₹349)</option>
+          <option>AC Service (₹499)</option>
+          <option>Deep Cleaning (₹799)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Address</label>
+        <input type="text" class="form-input" placeholder="Your complete address" value="Shanti Nagar, Raipur, CG">
+      </div>
+      <div class="estimate-row">
+        <span class="estimate-label">Service + Platform Fee + GST</span>
+        <span class="estimate-val">₹382</span>
+      </div>
+      <div style="font-size:0.78rem;color:var(--text-muted);margin:10px 0 16px;">Choose UPI payment method:</div>
+      <div class="upi-badges" style="margin-bottom:20px;">
+        <div class="upi-badge" onclick="selectUpi(this)" style="cursor:pointer;transition:all 0.2s">🟣 PhonePe</div>
+        <div class="upi-badge" onclick="selectUpi(this)" style="cursor:pointer;transition:all 0.2s">🟡 GPay</div>
+        <div class="upi-badge" onclick="selectUpi(this)" style="cursor:pointer;transition:all 0.2s">🔵 Paytm</div>
+        <div class="upi-badge" onclick="selectUpi(this)" style="cursor:pointer;transition:all 0.2s">🏦 BHIM</div>
+      </div>
+      <button class="btn-primary" style="width:100%;justify-content:center;border-radius:14px;" onclick="confirmBooking()">
+        Confirm & Pay ₹382 via UPI
+      </button>
+    </div>
+
+    <div id="modal-step2" style="display:none;">
+      <div class="modal-success">
+        <div class="success-check">✅</div>
+        <h3>Booking Confirmed!</h3>
+        <p>Payment of <strong>₹382</strong> received via UPI. Your professional is on the way.</p>
+        <div class="worker-eta">
+          <div class="eta-avatar">RK</div>
+          <div class="eta-info">
+            <div class="eta-name">Rajesh Kumar · ⭐ 4.9</div>
+            <div class="eta-time">🕐 Arriving in approximately 12 minutes</div>
+          </div>
+          <div class="eta-badge">Live</div>
+        </div>
+        <button class="btn-primary" style="margin-top:20px;width:100%;justify-content:center;border-radius:14px;" onclick="closeModal()">
+          Track on Map →
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast">
+  <span>⚡</span>
+  <span id="toast-msg">Action completed</span>
+</div>
+
+<script>
+  function selectTab(el) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function updateEstimate() {
+    const prices = { 0:299, 1:349, 2:399, 3:249, 4:499 };
+    const sel = document.querySelector('.form-select');
+    const price = prices[sel.selectedIndex] || 299;
+    document.getElementById('svc-charge').textContent = '₹' + price;
+  }
+
+  function openModal() {
+    document.getElementById('modal').classList.add('open');
+    document.getElementById('modal-step1').style.display = 'block';
+    document.getElementById('modal-step2').style.display = 'none';
+  }
+
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+  }
+
+  function selectUpi(el) {
+    document.querySelectorAll('.upi-badge').forEach(b => b.style.background = '');
+    el.style.background = 'var(--cream-dark)';
+    el.style.borderColor = 'var(--gold)';
+  }
+
+  function confirmBooking() {
+    const name = document.getElementById('m-name').value;
+    const phone = document.getElementById('m-phone').value;
+    if (!name || !phone) { showToast('Please fill in all details'); return; }
+    document.getElementById('modal-step1').style.display = 'none';
+    document.getElementById('modal-step2').style.display = 'block';
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toast-msg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3500);
+  }
+
+  // Animate numbers on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.style.opacity = '1';
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.service-card, .step, .pro-card, .dash-card').forEach(el => {
+    el.style.transition = 'all 0.4s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
